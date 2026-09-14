@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     template: '%s | Thabani Nyathi — Software Engineer Zimbabwe',
   },
   description:
-    'Thabani Nyathi is a premier Software Engineer and Full Stack Developer based in Harare, Zimbabwe. Computer Science student at Harare Institute of Technology (HIT), specializing in React, Next.js, Node.js, TypeScript, and Scalable Web Applications.',
+    'Thabani Nyathi is a premier Software Engineer and Full Stack Developer based in Harare, Zimbabwe. Software Engineering student at Harare Institute of Technology (HIT), specializing in React, Next.js, Node.js, TypeScript, and Scalable Web Applications.',
   keywords: [
     // Primary Name Keywords
     'Thabani Nyathi',
