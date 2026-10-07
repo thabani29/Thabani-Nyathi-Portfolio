@@ -73,36 +73,35 @@ type Repo = {
 };
 
 type GitHubUser = {
-  public_repos: number;
+  publicRepos: number;
+  privateRepos: number | null;
+  totalRepos: number | null;
   followers: number;
 };
 
 export default function GitHubSection() {
   const [user, setUser] = useState<GitHubUser | null>(null);
   const [repos, setRepos] = useState<Repo[]>(FALLBACK_REPOS);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
     async function fetchGitHubData() {
       try {
-        const [userRes, reposRes] = await Promise.all([
-          fetch('https://api.github.com/users/thabani29'),
+        const [statsRes, reposRes] = await Promise.all([
+          fetch('/api/github/stats'),
           fetch('https://api.github.com/users/thabani29/repos?sort=updated&per_page=100'),
         ]);
 
-        if (!userRes.ok || !reposRes.ok) {
+        if (!statsRes.ok || !reposRes.ok) {
           throw new Error('GitHub API response error');
         }
 
-        const userData = await userRes.json();
+        const statsData: GitHubUser = await statsRes.json();
         const reposData: Repo[] = await reposRes.json();
-        setUser({ public_repos: userData.public_repos, followers: userData.followers });
+        setUser(statsData);
         setRepos(reposData.slice(0, 4));
-      } catch (err) {
+      } catch {
         setError('Unable to load live GitHub data. Displaying cached values.');
-      } finally {
-        setLoading(false);
       }
     }
 
@@ -115,10 +114,11 @@ export default function GitHubSection() {
   );
 
   const stats = [
-    { label: 'Public repos', value: user ? String(user.public_repos) : '—', icon: '📁' },
+    { label: 'Public repos', value: user ? String(user.publicRepos) : '—', icon: '📁' },
+    { label: 'Private repos', value: user?.privateRepos == null ? '—' : String(user.privateRepos), icon: '🔒' },
+    { label: 'Total repos', value: user?.totalRepos == null ? '—' : String(user.totalRepos), icon: '🗂️' },
     { label: 'Followers', value: user ? String(user.followers) : '—', icon: '👥' },
     { label: 'Total stars', value: String(totalStars), icon: '⭐' },
-    { label: 'Live data', value: loading ? 'Loading…' : error ? 'Fallback mode' : 'Current', icon: '⏱️' },
   ];
 
   return (
@@ -138,21 +138,29 @@ export default function GitHubSection() {
           </div>
         ) : null}
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-              className="bg-white/5 border border-white/10 rounded-2xl p-5 text-center hover:border-cyan-500/30 transition-colors"
-            >
-              <div className="text-2xl mb-1">{stat.icon}</div>
-              <div className="text-2xl font-black font-poppins text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">{stat.value}</div>
-              <div className="text-xs text-slate-400 mt-1">{stat.label}</div>
-            </motion.div>
-          ))}
+        <div className="mb-12">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            {stats.map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="bg-white/5 border border-white/10 rounded-2xl p-5 text-center hover:border-cyan-500/30 transition-colors"
+              >
+                <div className="text-2xl mb-1">{stat.icon}</div>
+                <div className="text-2xl font-black font-poppins text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">{stat.value}</div>
+                <div className="text-xs text-slate-400 mt-1">{stat.label}</div>
+              </motion.div>
+            ))}
+          </div>
+
+          {user && user.privateRepos === null ? (
+            <p className="mt-4 text-center text-xs text-slate-400">
+              Add a server-side <code className="text-cyan-300">GITHUB_TOKEN</code> with repository read access to show private and total repository counts.
+            </p>
+          ) : null}
         </div>
 
         <motion.div
@@ -176,7 +184,7 @@ export default function GitHubSection() {
             </a>
           </div>
           <p className="text-slate-400 text-sm leading-relaxed">
-            This section fetches public GitHub data in real time. Repo counts, followers, and star totals refresh automatically when the page loads.
+            This section fetches GitHub metrics and your latest public repositories in real time. Private repositories are counted but never listed.
           </p>
         </motion.div>
 
