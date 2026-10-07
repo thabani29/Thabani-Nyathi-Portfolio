@@ -57,18 +57,6 @@ export interface Certification {
   gradient: string;
 }
 
-// ─── Blog ─────────────────────────────────────────────────────────────────────
-export interface BlogPost {
-  id: string;
-  title: string;
-  excerpt: string;
-  category: string;
-  date: string;
-  readTime: number;
-  tags: string[];
-  gradient: string;
-}
-
 // ─── Testimonials ────────────────────────────────────────────────────────────
 export interface Testimonial {
   id: string;
