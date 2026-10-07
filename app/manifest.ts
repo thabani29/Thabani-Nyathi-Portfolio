@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: 'Thabani Nyathi — Software Engineer & Full Stack Developer in Zimbabwe',
     short_name: 'Thabani Nyathi',
     description:
-      'Portfolio of Thabani Nyathi — Software Engineer, Full Stack Developer, and Computer Science student at Harare Institute of Technology in Zimbabwe.',
+      'Portfolio of Thabani Nyathi — Software Engineer, Full Stack Developer, and Software Engineering student at Harare Institute of Technology in Zimbabwe.',
     start_url: '/',
     display: 'standalone',
     background_color: '#020818',

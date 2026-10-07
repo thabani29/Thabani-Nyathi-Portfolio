@@ -49,7 +49,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-slate-400 text-sm leading-relaxed mb-6 max-w-xs">
-              Software Engineer & Computer Science student at the Harare Institute of Technology. Building software that solves real problems.
+              Software Engineer & Software Engineering student at the Harare Institute of Technology. Building software that solves real problems.
             </p>
             {/* Social icons */}
             <div className="flex items-center gap-3">

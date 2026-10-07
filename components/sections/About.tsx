@@ -99,7 +99,7 @@ export default function About() {
           >
             <div className="space-y-4 text-slate-300 leading-relaxed text-[0.97rem]">
               <p>
-                Hi! I&apos;m <strong className="text-white font-semibold">Thabani Nyathi</strong>, a software engineer and Computer Science student at the{' '}
+                Hi! I&apos;m <strong className="text-white font-semibold">Thabani Nyathi</strong>, a software engineer and Software Engineering student at the{' '}
                 <strong className="text-blue-400">Harare Institute of Technology (HIT)</strong> in <strong className="text-cyan-400">Harare, Zimbabwe</strong>. I thrive at the intersection of clean architecture, scalable code, and real-world problem solving.
               </p>
               <p>

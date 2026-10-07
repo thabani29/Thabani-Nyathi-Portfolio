@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     'Web Developer Zimbabwe',
     'Web Developer Harare',
     'Top Developers in Zimbabwe',
-    'Computer Science Student Zimbabwe',
-    'Harare Institute of Technology Computer Science',
-    'HIT Computer Science Student',
+    'Software Engineering Student Zimbabwe',
+    'Harare Institute of Technology Software Engineering',
+    'HIT Software Engineering Student',
     // Technology Specific Keywords
     'React Developer Zimbabwe',
     'Next.js Developer Zimbabwe',
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     siteName: 'Thabani Nyathi — Software Engineer Portfolio',
     title: 'Thabani Nyathi — Software Engineer in Zimbabwe | Full Stack Developer',
     description:
-      'Thabani Nyathi is a premier Software Engineer & Full Stack Developer in Harare, Zimbabwe. Computer Science student at Harare Institute of Technology (HIT), building scalable web applications and software solutions.',
+      'Thabani Nyathi is a premier Software Engineer & Full Stack Developer in Harare, Zimbabwe. Software Engineering student at Harare Institute of Technology (HIT), building scalable web applications and software solutions.',
     images: [
       {
         url: '/thabani.png',
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Thabani Nyathi — Software Engineer in Zimbabwe',
     description:
-      'Premier Software Engineer & Full Stack Developer based in Harare, Zimbabwe. Computer Science at Harare Institute of Technology.',
+      'Premier Software Engineer & Full Stack Developer based in Harare, Zimbabwe. Software Engineering at Harare Institute of Technology.',
     images: ['/thabani.png'],
     creator: '@thabani_nyathi',
   },
@@ -123,7 +123,7 @@ const jsonLdGraph = {
       },
       jobTitle: 'Software Engineer & Full Stack Developer',
       description:
-        'Thabani Nyathi is a Software Engineer and Computer Science student at Harare Institute of Technology (HIT) in Harare, Zimbabwe, specializing in React, Next.js, TypeScript, Node.js, and scalable web architecture.',
+        'Thabani Nyathi is a Software Engineer and Software Engineering student at Harare Institute of Technology (HIT) in Harare, Zimbabwe, specializing in React, Next.js, TypeScript, Node.js, and scalable web architecture.',
       worksFor: {
         '@type': 'Organization',
         name: 'Freelance Software Engineering & Web Development Services',

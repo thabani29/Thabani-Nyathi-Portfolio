@@ -199,7 +199,7 @@ export default function Hero() {
           transition={{ delay: 0.65, duration: 0.7 }}
           className="text-[color:var(--text-secondary)] text-base sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          I am a software engineer based in Harare, Zimbabwe, studying Computer Science at the Harare Institute of Technology (HIT). I specialize in crafting modern web applications, scalable full-stack architectures, and high-performance digital solutions.
+          I am a software engineer based in Harare, Zimbabwe, studying Software Engineering at the Harare Institute of Technology (HIT). I specialize in crafting modern web applications, scalable full-stack architectures, and high-performance digital solutions.
         </motion.p>
 
         {/* CTAs */}
