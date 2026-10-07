@@ -223,7 +223,7 @@ export default function Hero() {
             variant="secondary"
             size="lg"
             icon={<Download size={18} />}
-            onClick={() => window.open('/Thabani_Nyathi_CV.pdf', '_blank')}
+            onClick={() => window.open('/Thabani_Nyathi_CV.pdf?v=20261007', '_blank')}
           >
             Download Resume
           </Button>

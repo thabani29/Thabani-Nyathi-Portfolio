@@ -138,7 +138,7 @@ export default function About() {
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              onClick={() => window.open('/Thabani_Nyathi_CV.pdf', '_blank')}
+              onClick={() => window.open('/Thabani_Nyathi_CV.pdf?v=20261007', '_blank')}
               className="mt-4 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-sm hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] transition-all duration-300"
             >
               Download Resume
