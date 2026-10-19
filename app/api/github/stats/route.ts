@@ -26,9 +26,10 @@ function isGitHubUserResponse(data: unknown): data is GitHubUserResponse {
 
 export async function GET() {
   const token = process.env.GITHUB_TOKEN;
+  const publicEndpoint = 'https://api.github.com/users/thabani29';
   const endpoint = token
     ? 'https://api.github.com/user'
-    : 'https://api.github.com/users/thabani29';
+    : publicEndpoint;
   const headers = new Headers({
     Accept: 'application/vnd.github+json',
     'X-GitHub-Api-Version': '2022-11-28',
@@ -38,20 +39,23 @@ export async function GET() {
     headers.set('Authorization', `Bearer ${token}`);
   }
 
-  const response = await fetch(endpoint, { headers, cache: 'no-store' });
+  let response = await fetch(endpoint, { headers, cache: 'no-store' });
+
+  if (token && (response.status === 401 || response.status === 403)) {
+    headers.delete('Authorization');
+    response = await fetch(publicEndpoint, {
+      headers,
+      cache: 'no-store',
+    });
+  }
 
   if (!response.ok) {
     const message =
-      response.status === 401
-        ? 'GitHub rejected GITHUB_TOKEN. Replace it with a valid token for thabani29 and restart the server.'
-        : response.status === 403
-          ? 'GitHub denied access. Check the token permissions and any required organization approval.'
-          : 'Unable to load GitHub stats.';
+      response.status === 401 || response.status === 403
+        ? 'GitHub denied access to public profile stats. Check GitHub API availability and token configuration.'
+        : 'Unable to load GitHub stats.';
 
-    return NextResponse.json(
-      { error: message },
-      { status: 502 }
-    );
+    return NextResponse.json({ error: message }, { status: 502 });
   }
 
   const data: unknown = await response.json();
