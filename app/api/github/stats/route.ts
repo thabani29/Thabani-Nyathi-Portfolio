@@ -4,6 +4,7 @@ type GitHubUserResponse = {
   login: string;
   public_repos: number;
   followers: number;
+  owned_private_repos?: number;
   total_private_repos?: number;
 };
 
@@ -19,6 +20,8 @@ function isGitHubUserResponse(data: unknown): data is GitHubUserResponse {
     typeof data.public_repos === 'number' &&
     'followers' in data &&
     typeof data.followers === 'number' &&
+    (!('owned_private_repos' in data) ||
+      typeof data.owned_private_repos === 'number') &&
     (!('total_private_repos' in data) ||
       typeof data.total_private_repos === 'number')
   );
@@ -68,7 +71,9 @@ export async function GET() {
   }
 
   const privateRepos =
-    typeof data.total_private_repos === 'number' ? data.total_private_repos : null;
+    typeof data.owned_private_repos === 'number'
+      ? data.owned_private_repos
+      : null;
 
   return NextResponse.json({
     publicRepos: data.public_repos,

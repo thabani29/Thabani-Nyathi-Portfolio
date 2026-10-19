@@ -167,7 +167,7 @@ export default function GitHubSection() {
 
           {user && user.privateRepos === null ? (
             <p className="mt-4 text-center text-xs text-slate-400">
-              Add a server-side <code className="text-cyan-300">GITHUB_TOKEN</code> with repository read access to show private and total repository counts.
+              Configure a server-side <code className="text-cyan-300">GITHUB_TOKEN</code> with the <code className="text-cyan-300">read:user</code> scope to show owned private and total repository counts.
             </p>
           ) : null}
         </div>
