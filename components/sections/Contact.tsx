@@ -61,6 +61,7 @@ export default function Contact() {
   const [form, setForm] = useState<ContactFormData>(INITIAL);
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
   const [status, setStatus] = useState<FormStatus>('idle');
+  const [submissionError, setSubmissionError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -75,10 +76,37 @@ export default function Contact() {
     const errs = validate(form);
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
     setStatus('sending');
-    // Simulate send
-    await new Promise((r) => setTimeout(r, 1800));
-    setStatus('success');
-    setForm(INITIAL);
+    setSubmissionError('');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const result: unknown = await response.json();
+
+      if (!response.ok) {
+        const message =
+          typeof result === 'object' &&
+          result !== null &&
+          'error' in result &&
+          typeof result.error === 'string'
+            ? result.error
+            : 'Your message could not be sent. Please try again or email me directly.';
+        throw new Error(message);
+      }
+
+      setStatus('success');
+      setForm(INITIAL);
+    } catch (error) {
+      setSubmissionError(
+        error instanceof Error
+          ? error.message
+          : 'Your message could not be sent. Please try again or email me directly.'
+      );
+      setStatus('error');
+    }
   };
 
   const inputClass = (field: keyof ContactFormData) =>
@@ -274,7 +302,7 @@ export default function Contact() {
                   </motion.button>
 
                   {status === 'error' && (
-                    <p className="text-center text-sm text-red-400">Something went wrong. Please try again.</p>
+                    <p role="alert" className="text-center text-sm text-red-400">{submissionError}</p>
                   )}
                 </form>
               )}
