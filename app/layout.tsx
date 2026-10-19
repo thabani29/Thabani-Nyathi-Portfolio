@@ -6,75 +6,43 @@ export const metadata: Metadata = {
   verification: {
     google: 'GETGzejVcECRm9PKjYtPLefQEXt1Ssj204ENMVS8KvQ',
   },
+  applicationName: 'Thabani Nyathi Portfolio',
   title: {
-    default: 'Thabani Nyathi — Software Engineer in Zimbabwe | Full Stack Developer',
-    template: '%s | Thabani Nyathi — Software Engineer Zimbabwe',
+    default: 'Thabani Nyathi | Software Engineer in Zimbabwe',
+    template: '%s | Thabani Nyathi',
   },
   description:
-    'Thabani Nyathi is a premier Software Engineer and Full Stack Developer based in Harare, Zimbabwe. Software Engineering student at Harare Institute of Technology (HIT), specializing in React, Next.js, Node.js, TypeScript, and Scalable Web Applications.',
+    'Thabani Nyathi is a software engineer and full-stack developer in Harare, Zimbabwe, studying at HIT. Explore his projects, skills, experience, and contact details.',
   keywords: [
     // Primary Name Keywords
     'Thabani Nyathi',
-    'Thabani Nyathi Software Engineer',
-    'Thabani Nyathi Developer',
-    'Thabani Nyathi Zimbabwe',
-    'Thabani Nyathi HIT',
-    'Thabani Nyathi Portfolio',
-    'Thabani Nyathi Harare',
-    // Regional & Country Keywords
-    'Software Engineer in Zimbabwe',
-    'Software Developer Zimbabwe',
-    'Best Software Engineers in Zimbabwe',
-    'Full Stack Developer Zimbabwe',
-    'Full Stack Developer Harare',
-    'Web Developer Zimbabwe',
-    'Web Developer Harare',
-    'Top Developers in Zimbabwe',
-    'Software Engineering Student Zimbabwe',
-    'Harare Institute of Technology Software Engineering',
-    'HIT Software Engineering Student',
-    // Technology Specific Keywords
-    'React Developer Zimbabwe',
-    'Next.js Developer Zimbabwe',
-    'TypeScript Engineer Zimbabwe',
-    'Node.js Developer Harare',
-    'Frontend Developer Zimbabwe',
-    'Backend Engineer Zimbabwe',
-    'Database Developer Zimbabwe',
-    // Projects & Specific Work
-    'Zimcrafts-Hub',
-    'Pulse SEO Engine',
-    'Thabani Nyathi Projects',
+    'Thabani Nyathi software engineer',
+    'Thabani Nyathi developer',
+    'software engineer Harare Zimbabwe',
+    'full-stack developer Zimbabwe',
+    'Harare Institute of Technology software engineering',
+    'Thabani Nyathi portfolio',
   ],
   authors: [{ name: 'Thabani Nyathi', url: 'https://thabani-nyathi.dev' }],
   creator: 'Thabani Nyathi',
   publisher: 'Thabani Nyathi',
   alternates: {
-    canonical: 'https://thabani-nyathi.dev',
+    canonical: '/',
   },
   openGraph: {
     type: 'website',
-    locale: 'en_US',
-    url: 'https://thabani-nyathi.dev',
-    siteName: 'Thabani Nyathi — Software Engineer Portfolio',
-    title: 'Thabani Nyathi — Software Engineer in Zimbabwe | Full Stack Developer',
+    locale: 'en_ZW',
+    url: '/',
+    siteName: 'Thabani Nyathi Portfolio',
+    title: 'Thabani Nyathi | Software Engineer in Zimbabwe',
     description:
-      'Thabani Nyathi is a premier Software Engineer & Full Stack Developer in Harare, Zimbabwe. Software Engineering student at Harare Institute of Technology (HIT), building scalable web applications and software solutions.',
-    images: [
-      {
-        url: '/thabani.png',
-        width: 1200,
-        height: 630,
-        alt: 'Thabani Nyathi — Software Engineer in Zimbabwe',
-      },
-    ],
+      'Meet Thabani Nyathi, a software engineer and full-stack developer based in Harare, Zimbabwe. Explore selected projects, experience, and skills.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Thabani Nyathi — Software Engineer in Zimbabwe',
+    title: 'Thabani Nyathi | Software Engineer in Zimbabwe',
     description:
-      'Premier Software Engineer & Full Stack Developer based in Harare, Zimbabwe. Software Engineering at Harare Institute of Technology.',
-    images: ['/thabani.png'],
+      'Explore the portfolio, projects, and experience of Thabani Nyathi, a software engineer in Harare, Zimbabwe.',
     creator: '@thabani_nyathi',
   },
   robots: {
@@ -104,7 +72,6 @@ export const metadata: Metadata = {
   },
 };
 
-// JSON-LD structured data graph
 const jsonLdGraph = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -112,26 +79,17 @@ const jsonLdGraph = {
       '@type': 'Person',
       '@id': 'https://thabani-nyathi.dev/#person',
       name: 'Thabani Nyathi',
-      alternateName: [
-        'Thabani',
-        'T. Nyathi',
-        'Thabani Nyathi Software Engineer',
-        'Thabani Nyathi Developer Zimbabwe',
-      ],
+      alternateName: 'Thabani',
       url: 'https://thabani-nyathi.dev',
       image: {
         '@type': 'ImageObject',
         url: 'https://thabani-nyathi.dev/thabani.png',
         caption: 'Thabani Nyathi — Software Engineer in Zimbabwe',
       },
-      jobTitle: 'Software Engineer & Full Stack Developer',
+      jobTitle: 'Software Engineer and Full-Stack Developer',
       description:
-        'Thabani Nyathi is a Software Engineer and Software Engineering student at Harare Institute of Technology (HIT) in Harare, Zimbabwe, specializing in React, Next.js, TypeScript, Node.js, and scalable web architecture.',
-      worksFor: {
-        '@type': 'Organization',
-        name: 'Freelance Software Engineering & Web Development Services',
-      },
-      alumniOf: {
+        'Thabani Nyathi is a software engineer and full-stack developer based in Harare, Zimbabwe, and a Software Engineering student at Harare Institute of Technology.',
+      affiliation: {
         '@type': 'CollegeOrUniversity',
         name: 'Harare Institute of Technology',
         sameAs: 'https://www.hit.ac.zw',
@@ -156,21 +114,28 @@ const jsonLdGraph = {
       knowsAbout: [
         'Software Engineering',
         'Full Stack Web Development',
-        'React.js',
+        'React',
         'Next.js',
         'TypeScript',
         'Node.js',
-        'Database Management',
+        'Database Systems',
         'Computer Architecture',
-        'Software Architecture in Zimbabwe',
       ],
+      mainEntityOfPage: {
+        '@id': 'https://thabani-nyathi.dev/#profilepage',
+      },
     },
     {
       '@type': 'WebSite',
       '@id': 'https://thabani-nyathi.dev/#website',
       url: 'https://thabani-nyathi.dev',
-      name: 'Thabani Nyathi Portfolio — Software Engineer in Zimbabwe',
-      description: 'Official portfolio website of Thabani Nyathi, Software Engineer & Full Stack Developer in Zimbabwe.',
+      name: 'Thabani Nyathi Portfolio',
+      description:
+        'The official portfolio of Thabani Nyathi, a software engineer and full-stack developer in Harare, Zimbabwe.',
+      inLanguage: 'en',
+      about: {
+        '@id': 'https://thabani-nyathi.dev/#person',
+      },
       publisher: {
         '@id': 'https://thabani-nyathi.dev/#person',
       },
@@ -179,7 +144,10 @@ const jsonLdGraph = {
       '@type': 'ProfilePage',
       '@id': 'https://thabani-nyathi.dev/#profilepage',
       url: 'https://thabani-nyathi.dev',
-      name: 'Thabani Nyathi — Software Engineer Profile',
+      name: 'Thabani Nyathi | Software Engineer Profile',
+      isPartOf: {
+        '@id': 'https://thabani-nyathi.dev/#website',
+      },
       mainEntity: {
         '@id': 'https://thabani-nyathi.dev/#person',
       },
@@ -212,10 +180,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdGraph) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLdGraph).replace(/</g, '\\u003c'),
+          }}
         />
       </head>
       <body className="bg-[color:var(--surface-950)] text-[color:var(--text-primary)] font-inter antialiased overflow-x-hidden" suppressHydrationWarning>
+        <a className="skip-link" href="#main-content">
+          Skip to main content
+        </a>
         {children}
       </body>
     </html>

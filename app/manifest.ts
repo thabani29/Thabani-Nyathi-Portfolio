@@ -9,7 +9,7 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: '/',
     display: 'standalone',
     background_color: '#020818',
-    theme_color: '#7c3aed',
+    theme_color: '#06b6d4',
     icons: [
       {
         src: '/thabani.png',
