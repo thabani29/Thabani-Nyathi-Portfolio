@@ -41,8 +41,15 @@ export async function GET() {
   const response = await fetch(endpoint, { headers, cache: 'no-store' });
 
   if (!response.ok) {
+    const message =
+      response.status === 401
+        ? 'GitHub rejected GITHUB_TOKEN. Replace it with a valid token for thabani29 and restart the server.'
+        : response.status === 403
+          ? 'GitHub denied access. Check the token permissions and any required organization approval.'
+          : 'Unable to load GitHub stats.';
+
     return NextResponse.json(
-      { error: 'Unable to load GitHub stats.' },
+      { error: message },
       { status: 502 }
     );
   }

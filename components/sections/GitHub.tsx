@@ -92,7 +92,12 @@ export default function GitHubSection() {
           fetch('https://api.github.com/users/thabani29/repos?sort=updated&per_page=100'),
         ]);
 
-        if (!statsRes.ok || !reposRes.ok) {
+        if (!statsRes.ok) {
+          const statsError: { error?: string } = await statsRes.json();
+          throw new Error(statsError.error || 'Unable to load live GitHub stats.');
+        }
+
+        if (!reposRes.ok) {
           throw new Error('GitHub API response error');
         }
 
@@ -100,8 +105,12 @@ export default function GitHubSection() {
         const reposData: Repo[] = await reposRes.json();
         setUser(statsData);
         setRepos(reposData.slice(0, 4));
-      } catch {
-        setError('Unable to load live GitHub data. Displaying cached values.');
+      } catch (err) {
+        setError(
+          err instanceof Error
+            ? `${err.message} Displaying cached values.`
+            : 'Unable to load live GitHub data. Displaying cached values.'
+        );
       }
     }
 

@@ -5,6 +5,7 @@ node_modules/
 .next/
 
 # Local env files
+.env
 .env.local
 .env.*.local
 
@@ -14,6 +15,9 @@ node_modules/
 # IDEs and editors
 .vscode/
 .idea/
+
+# TypeScript
+*.tsbuildinfo
 
 # Logs
 npm-debug.log*
