@@ -1,5 +1,5 @@
 'use client';
-import { Github, Linkedin, Mail, Code2, Heart } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
@@ -118,9 +118,6 @@ export default function Footer() {
         {/* Copyright */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
           <p>© 2026 Thabani Nyathi. All rights reserved.</p>
-          <p className="flex items-center gap-1.5">
-            Built with <Heart size={13} className="text-red-400 fill-red-400" /> using Next.js & Tailwind CSS
-          </p>
         </div>
       </div>
     </footer>

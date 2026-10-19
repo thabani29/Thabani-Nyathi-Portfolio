@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Code2 } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import ThemeToggle from './ThemeToggle';
 import Button from '@/components/ui/Button';
@@ -96,6 +96,8 @@ export default function Navbar() {
                 id="mobile-menu-toggle"
                 suppressHydrationWarning
                 aria-label="Toggle mobile menu"
+                aria-expanded={mobileOpen}
+                aria-controls="mobile-navigation"
                 onClick={() => setMobileOpen((o) => !o)}
                 className="md:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-[color:var(--surface-700)]/70 border border-[color:var(--border-soft)] text-[color:var(--text-primary)]"
               >
@@ -114,6 +116,7 @@ export default function Navbar() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 28, stiffness: 280 }}
+            id="mobile-navigation"
             className="fixed inset-y-0 right-0 z-40 w-72 bg-[color:var(--surface-900)]/95 backdrop-blur-xl border-l border-[color:var(--border-soft)] flex flex-col pt-20 pb-8 px-6 md:hidden"
           >
             {NAV_LINKS.map((link, i) => (

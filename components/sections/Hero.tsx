@@ -11,6 +11,8 @@ function ParticleCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -18,7 +20,7 @@ function ParticleCanvas() {
 
     let animId: number;
     const particles: { x: number; y: number; vx: number; vy: number; r: number; alpha: number }[] = [];
-    const COUNT = 80;
+    const COUNT = window.matchMedia('(max-width: 640px)').matches ? 28 : 52;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -101,7 +103,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[color:var(--surface-950)]"
+      className="relative min-h-[min(900px,100svh)] flex flex-col items-center justify-center overflow-hidden bg-[color:var(--surface-950)]"
     >
       {/* Particles */}
       <ParticleCanvas />
@@ -124,7 +126,7 @@ export default function Hero() {
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="mt-16 mb-6 inline-block relative group sm:mt-20"
+          className="mt-20 mb-6 block w-fit mx-auto relative group sm:mt-24"
         >
           <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 bg-gradient-to-r from-cyan-500 via-blue-400 to-emerald-500 shadow-2xl shadow-cyan-500/40 relative">
             <div className="w-full h-full rounded-full overflow-hidden bg-[color:var(--surface-900)] border-2 border-[color:var(--surface-950)]">
@@ -147,7 +149,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-sm font-medium"
+          className="inline-flex items-center gap-2 mb-7 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs sm:text-sm font-medium shadow-lg shadow-cyan-950/20 backdrop-blur-sm"
         >
           <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
           Available for opportunities
@@ -158,7 +160,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black font-poppins text-[color:var(--text-primary)] mb-4 leading-none tracking-tight"
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-black font-poppins text-[color:var(--text-primary)] mb-4 leading-[0.98] tracking-[-0.055em]"
         >
           Thabani{' '}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-300 to-emerald-400 animate-gradient-shift bg-[length:200%_200%]">
@@ -171,7 +173,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="h-10 flex items-center justify-center mb-6"
+          className="h-10 flex items-center justify-center mb-5"
         >
           <span className="text-xl sm:text-2xl md:text-3xl font-semibold text-cyan-400 font-mono">
             {role}
@@ -184,7 +186,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55, duration: 0.7 }}
-          className="text-2xl sm:text-3xl md:text-4xl font-bold font-poppins text-[color:var(--text-primary)] mb-6 leading-tight max-w-3xl mx-auto"
+          className="text-2xl sm:text-3xl md:text-4xl font-bold font-poppins text-[color:var(--text-primary)] mb-5 leading-tight max-w-3xl mx-auto"
         >
           Software Engineer & Full Stack Developer in{' '}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">
@@ -197,7 +199,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.65, duration: 0.7 }}
-          className="text-[color:var(--text-secondary)] text-base sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-[color:var(--text-secondary)] text-base sm:text-lg max-w-2xl mx-auto mb-9 leading-8"
         >
           I am a software engineer based in Harare, Zimbabwe, studying Software Engineering at the Harare Institute of Technology (HIT). I specialize in crafting modern web applications, scalable full-stack architectures, and high-performance digital solutions.
         </motion.p>
@@ -207,7 +209,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.75, duration: 0.6 }}
-          className="flex flex-wrap items-center justify-center gap-4 mb-14"
+          className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-12"
         >
           <Button
             id="hero-view-projects"
@@ -257,7 +259,7 @@ export default function Hero() {
               aria-label={label}
               whileHover={{ scale: 1.1, y: -3 }}
               whileTap={{ scale: 0.95 }}
-              className="w-11 h-11 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-sm flex items-center justify-center text-[color:var(--text-muted)] hover:text-[color:var(--text-primary)] hover:bg-cyan-500/20 hover:border-cyan-500/40 transition-all duration-200"
+              className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm flex items-center justify-center text-[color:var(--text-muted)] hover:text-[color:var(--text-primary)] hover:bg-cyan-500/20 hover:border-cyan-500/40 hover:-translate-y-0.5 transition-all duration-200"
             >
               <Icon size={19} />
             </motion.a>
