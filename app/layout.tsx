@@ -3,6 +3,9 @@ import './globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://thabani-nyathi.dev'),
+  verification: {
+    google: 'GETGzejVcECRm9PKjYtPLefQEXt1Ssj204ENMVS8KvQ',
+  },
   title: {
     default: 'Thabani Nyathi — Software Engineer in Zimbabwe | Full Stack Developer',
     template: '%s | Thabani Nyathi — Software Engineer Zimbabwe',
