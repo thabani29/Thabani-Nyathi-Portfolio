@@ -1,10 +1,10 @@
 'use client';
-import { useRef, useState, FormEvent } from 'react';
+import { useRef, useState, type FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Github, Linkedin, MapPin, Send, CheckCircle2, AlertCircle, Phone } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import SectionHeading from '@/components/ui/SectionHeading';
-import { ContactFormData } from '@/types';
+import type { ContactFormData } from '@/types';
 
 type FormStatus = 'idle' | 'sending' | 'success' | 'error';
 
@@ -126,7 +126,14 @@ export default function Contact() {
           message_html: escapeHtml(form.message.trim()).replace(/\r\n?|\n/g, '<br>'),
           reply_to: form.email.trim(),
         },
-        { publicKey }
+        {
+          publicKey,
+          blockHeadless: true,
+          limitRate: {
+            id: 'portfolio-contact',
+            throttle: 10_000,
+          },
+        }
       );
 
       if (result.status < 200 || result.status >= 300) {

@@ -42,7 +42,6 @@ export default function LoadingScreen() {
                   alt="Thabani Nyathi"
                   width={80}
                   height={80}
-                  priority
                   className="w-full h-full object-cover object-center"
                 />
               </div>
