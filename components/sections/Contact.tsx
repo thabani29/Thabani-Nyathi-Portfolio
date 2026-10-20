@@ -1,7 +1,8 @@
 'use client';
-import { useState, FormEvent } from 'react';
+import { useRef, useState, FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Github, Linkedin, MapPin, Send, CheckCircle2, AlertCircle, Phone } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 import SectionHeading from '@/components/ui/SectionHeading';
 import { ContactFormData } from '@/types';
 
@@ -49,12 +50,29 @@ const INITIAL: ContactFormData = { name: '', email: '', subject: '', message: ''
 function validate(data: ContactFormData): Partial<Record<keyof ContactFormData, string>> {
   const errors: Partial<Record<keyof ContactFormData, string>> = {};
   if (!data.name.trim()) errors.name = 'Name is required';
+  else if (data.name.trim().length > 100) errors.name = 'Name must be 100 characters or fewer';
   if (!data.email.trim()) errors.email = 'Email is required';
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) errors.email = 'Invalid email address';
+  else if (data.email.trim().length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email.trim())) errors.email = 'Invalid email address';
   if (!data.subject.trim()) errors.subject = 'Subject is required';
+  else if (data.subject.trim().length > 150) errors.subject = 'Subject must be 150 characters or fewer';
   if (!data.message.trim()) errors.message = 'Message is required';
   else if (data.message.trim().length < 20) errors.message = 'Message must be at least 20 characters';
+  else if (data.message.trim().length > 5000) errors.message = 'Message must be 5,000 characters or fewer';
   return errors;
+}
+
+function escapeHtml(value: string) {
+  return value.replace(/[&<>"']/g, (character) => {
+    const entities: Record<string, string> = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+    };
+
+    return entities[character];
+  });
 }
 
 export default function Contact() {
@@ -62,6 +80,7 @@ export default function Contact() {
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
   const [status, setStatus] = useState<FormStatus>('idle');
   const [submissionError, setSubmissionError] = useState('');
+  const submissionInProgress = useRef(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -73,39 +92,56 @@ export default function Contact() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (submissionInProgress.current) return;
+
     const errs = validate(form);
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      setSubmissionError(
+        'Email sending is not configured yet. Please email me using the address listed beside this form.'
+      );
+      setStatus('error');
+      return;
+    }
+
+    submissionInProgress.current = true;
     setStatus('sending');
     setSubmissionError('');
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-      const result: unknown = await response.json();
+      const result = await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          from_name: escapeHtml(form.name.trim()),
+          from_email: escapeHtml(form.email.trim()),
+          subject: form.subject.trim().replace(/[\r\n]+/g, ' '),
+          subject_html: escapeHtml(form.subject.trim()),
+          message: form.message.trim(),
+          message_html: escapeHtml(form.message.trim()).replace(/\r\n?|\n/g, '<br>'),
+          reply_to: form.email.trim(),
+        },
+        { publicKey }
+      );
 
-      if (!response.ok) {
-        const message =
-          typeof result === 'object' &&
-          result !== null &&
-          'error' in result &&
-          typeof result.error === 'string'
-            ? result.error
-            : 'Your message could not be sent. Please try again or email me directly.';
-        throw new Error(message);
+      if (result.status < 200 || result.status >= 300) {
+        throw new Error('EmailJS did not accept the message.');
       }
 
       setStatus('success');
       setForm(INITIAL);
-    } catch (error) {
+    } catch {
       setSubmissionError(
-        error instanceof Error
-          ? error.message
-          : 'Your message could not be sent. Please try again or email me directly.'
+        'Your message could not be sent. Please try again or email me using the address listed beside this form.'
       );
       setStatus('error');
+    } finally {
+      submissionInProgress.current = false;
     }
   };
 
@@ -196,6 +232,9 @@ export default function Contact() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center text-center py-8 gap-4"
+                  role="status"
+                  aria-live="polite"
+                  aria-atomic="true"
                 >
                   <div className="w-16 h-16 rounded-full bg-green-500/20 border border-green-500/40 flex items-center justify-center">
                     <CheckCircle2 size={28} className="text-green-400" />
@@ -210,7 +249,13 @@ export default function Contact() {
                   </button>
                 </motion.div>
               ) : (
-                <form id="contact-form" onSubmit={handleSubmit} className="space-y-5" noValidate>
+                <form
+                  id="contact-form"
+                  onSubmit={handleSubmit}
+                  className="space-y-5"
+                  noValidate
+                  aria-busy={status === 'sending'}
+                >
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     {/* Name */}
                     <div>
@@ -220,13 +265,17 @@ export default function Contact() {
                         suppressHydrationWarning
                         name="name"
                         type="text"
+                        maxLength={100}
+                        required
+                        aria-invalid={Boolean(errors.name)}
+                        aria-describedby={errors.name ? 'contact-name-error' : undefined}
                         value={form.name}
                         onChange={handleChange}
                         placeholder="Your full name"
                         className={inputClass('name')}
                         autoComplete="name"
                       />
-                      {errors.name && <p className="mt-1 text-xs text-red-400 flex items-center gap-1"><AlertCircle size={11} />{errors.name}</p>}
+                      {errors.name && <p id="contact-name-error" className="mt-1 text-xs text-red-400 flex items-center gap-1"><AlertCircle size={11} />{errors.name}</p>}
                     </div>
                     {/* Email */}
                     <div>
@@ -236,13 +285,17 @@ export default function Contact() {
                         suppressHydrationWarning
                         name="email"
                         type="email"
+                        maxLength={254}
+                        required
+                        aria-invalid={Boolean(errors.email)}
+                        aria-describedby={errors.email ? 'contact-email-error' : undefined}
                         value={form.email}
                         onChange={handleChange}
                         placeholder="your@email.com"
                         className={inputClass('email')}
                         autoComplete="email"
                       />
-                      {errors.email && <p className="mt-1 text-xs text-red-400 flex items-center gap-1"><AlertCircle size={11} />{errors.email}</p>}
+                      {errors.email && <p id="contact-email-error" className="mt-1 text-xs text-red-400 flex items-center gap-1"><AlertCircle size={11} />{errors.email}</p>}
                     </div>
                   </div>
 
@@ -254,12 +307,16 @@ export default function Contact() {
                       suppressHydrationWarning
                       name="subject"
                       type="text"
+                      maxLength={150}
+                      required
+                      aria-invalid={Boolean(errors.subject)}
+                      aria-describedby={errors.subject ? 'contact-subject-error' : undefined}
                       value={form.subject}
                       onChange={handleChange}
                       placeholder="What's this about?"
                       className={inputClass('subject')}
                     />
-                    {errors.subject && <p className="mt-1 text-xs text-red-400 flex items-center gap-1"><AlertCircle size={11} />{errors.subject}</p>}
+                    {errors.subject && <p id="contact-subject-error" className="mt-1 text-xs text-red-400 flex items-center gap-1"><AlertCircle size={11} />{errors.subject}</p>}
                   </div>
 
                   {/* Message */}
@@ -270,12 +327,16 @@ export default function Contact() {
                       suppressHydrationWarning
                       name="message"
                       rows={5}
+                      maxLength={5000}
+                      required
+                      aria-invalid={Boolean(errors.message)}
+                      aria-describedby={errors.message ? 'contact-message-error' : undefined}
                       value={form.message}
                       onChange={handleChange}
                       placeholder="Tell me about your project or opportunity..."
                       className={`${inputClass('message')} resize-none`}
                     />
-                    {errors.message && <p className="mt-1 text-xs text-red-400 flex items-center gap-1"><AlertCircle size={11} />{errors.message}</p>}
+                    {errors.message && <p id="contact-message-error" className="mt-1 text-xs text-red-400 flex items-center gap-1"><AlertCircle size={11} />{errors.message}</p>}
                   </div>
 
                   {/* Submit */}
@@ -301,9 +362,13 @@ export default function Contact() {
                     )}
                   </motion.button>
 
-                  {status === 'error' && (
-                    <p role="alert" className="text-center text-sm text-red-400">{submissionError}</p>
-                  )}
+                  <p
+                    role={status === 'error' ? 'alert' : undefined}
+                    aria-live={status === 'error' ? 'assertive' : undefined}
+                    className={`text-center text-sm text-red-400 ${status === 'error' ? '' : 'hidden'}`}
+                  >
+                    {submissionError}
+                  </p>
                 </form>
               )}
             </div>
