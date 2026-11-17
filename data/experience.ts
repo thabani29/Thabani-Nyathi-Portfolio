@@ -2,19 +2,33 @@ import { Experience } from '@/types';
 
 export const experiences: Experience[] = [
   {
-    id: 'internship-2026',
+    id: 'zarnet-internship-2026',
     type: 'internship',
-    title: 'Incoming Software Engineering Intern',
-    organization: 'Industrial Attachment',
+    title: 'Information and Technology Intern',
+    organization: 'ZARNet Zimbabwe',
     location: 'Zimbabwe',
-    startDate: 'Jul 2026',
-    endDate: 'Jun 2027',
+    startDate: 'Nov 2026',
+    endDate: 'Present',
+    current: true,
+    description: [
+      'Currently completing an internship at ZARNet Zimbabwe.',
+    ],
+    tags: ['Internship'],
+    gradient: 'from-cyan-500 to-blue-500',
+  },
+  {
+    id: 'hit-it-internship-2026',
+    type: 'internship',
+    title: 'Information Technology Intern',
+    organization: 'Harare Institute of Technology',
+    location: 'Harare, Zimbabwe',
+    startDate: 'Sep 2026',
+    endDate: 'Nov 2026',
     current: false,
     description: [
-      'Preparing for a one-year industrial attachment as part of my B-TECH degree program.',
-      'Looking forward to applying my software engineering skills in a professional, real-world environment.',
+      'Completed an in-house internship at Harare Institute of Technology.',
     ],
-    tags: ['Internship', 'Software Engineering'],
+    tags: ['Internship', 'Information Technology'],
     gradient: 'from-emerald-500 to-cyan-500',
   },
   {

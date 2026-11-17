@@ -2,6 +2,15 @@ import { Certification } from '@/types';
 
 export const certifications: Certification[] = [
   {
+    id: 'introduction-to-cybersecurity',
+    title: 'Introduction to Cybersecurity',
+    issuer: 'Cisco Networking Academy',
+    credentialUrl: 'https://www.credly.com/badges/b08bd589-ce9b-4f36-ac1c-163e65653d04/public_url',
+    status: 'earned',
+    icon: '🔐',
+    gradient: 'from-emerald-500 to-cyan-500',
+  },
+  {
     id: 'webdev-cert',
     title: 'Responsive Web Design',
     issuer: 'freeCodeCamp',
