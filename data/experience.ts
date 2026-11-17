@@ -26,7 +26,9 @@ export const experiences: Experience[] = [
     endDate: 'Nov 2026',
     current: false,
     description: [
-      'Completed an in-house internship at Harare Institute of Technology.',
+      'Was responsible for supporting the IT infrastructure and providing technical assistance.',
+      'Was responsible for inventory checks and maintenance of IT equipment.',
+      'Carried out a virtualization project using Hyper-V to create virtual machines for testing and development purposes.',
     ],
     tags: ['Internship', 'Information Technology'],
     gradient: 'from-emerald-500 to-cyan-500',
