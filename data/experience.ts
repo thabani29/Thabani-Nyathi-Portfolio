@@ -13,7 +13,7 @@ export const experiences: Experience[] = [
     description: [
       'Currently completing an internship at ZARNet Zimbabwe.',
     ],
-    tags: ['Internship'],
+    tags: ['Internship', 'Information Technology', 'Networking', 'IT Support', 'Web Development', 'WordPress', 'PHP', 'MySQL', 'HTML', 'CSS'],
     gradient: 'from-cyan-500 to-blue-500',
   },
   {
@@ -30,7 +30,7 @@ export const experiences: Experience[] = [
       'Was responsible for inventory checks and maintenance of IT equipment.',
       'Carried out a virtualization project using Hyper-V to create virtual machines for testing and development purposes.',
     ],
-    tags: ['Internship', 'Information Technology'],
+    tags: ['Internship', 'Information Technology', 'Virtualization', 'Hyper-V', 'IT Support'],
     gradient: 'from-emerald-500 to-cyan-500',
   },
   {
