@@ -55,7 +55,6 @@ export default function Certifications() {
             );
             const cardClassName = `group relative flex flex-col bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6 hover:border-cyan-500/40 hover:bg-cyan-500/5 hover:shadow-xl hover:shadow-cyan-500/10 transition-all duration-300 overflow-hidden ${cert.credentialUrl ? 'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-900' : ''}`;
             const animationProps = {
-              key: cert.id,
               initial: { opacity: 0, y: 30 },
               whileInView: { opacity: 1, y: 0 },
               viewport: { once: true },
@@ -66,6 +65,7 @@ export default function Certifications() {
             return (
               cert.credentialUrl ? (
                 <motion.a
+                  key={cert.id}
                   {...animationProps}
                   href={cert.credentialUrl}
                   target="_blank"
@@ -76,7 +76,7 @@ export default function Certifications() {
                   {cardContent}
                 </motion.a>
               ) : (
-                <motion.div {...animationProps}>
+                <motion.div key={cert.id} {...animationProps}>
                   {cardContent}
                 </motion.div>
               )
