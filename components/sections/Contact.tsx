@@ -12,36 +12,14 @@ const SOCIAL_LINKS = [
   {
     icon: Github,
     label: 'GitHub',
-    value: 'github.com/thabani29',
     href: 'https://github.com/thabani29',
     iconColor: 'text-white',
-    iconBackground: 'bg-slate-500/20 border-slate-400/30',
-    external: true,
   },
   {
     icon: Linkedin,
     label: 'LinkedIn',
-    value: 'linkedin.com/in/thabani-nyathi-3143142aa',
     href: 'https://www.linkedin.com/in/thabani-nyathi-3143142aa',
     iconColor: 'text-[#0A66C2]',
-    iconBackground: 'bg-blue-500/15 border-blue-400/30',
-    external: true,
-  },
-  {
-    icon: Mail,
-    label: 'Email',
-    value: 'nyathiza31@gmail.com',
-    href: 'mailto:nyathiza31@gmail.com',
-    iconColor: 'text-rose-400',
-    iconBackground: 'bg-rose-500/15 border-rose-400/30',
-  },
-  {
-    icon: Phone,
-    label: 'Phone',
-    value: '+263 78 965 7604',
-    href: 'tel:+263789657604',
-    iconColor: 'text-emerald-400',
-    iconBackground: 'bg-emerald-500/15 border-emerald-400/30',
   },
 ];
 
@@ -102,9 +80,7 @@ export default function Contact() {
     const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
     if (!serviceId || !templateId || !publicKey) {
-      setSubmissionError(
-        'Email sending is not configured yet. Please email me using the address listed beside this form.'
-      );
+      setSubmissionError('Email sending is not configured yet. Please email me directly at');
       setStatus('error');
       return;
     }
@@ -143,9 +119,7 @@ export default function Contact() {
       setStatus('success');
       setForm(INITIAL);
     } catch {
-      setSubmissionError(
-        'Your message could not be sent. Please try again or email me using the address listed beside this form.'
-      );
+      setSubmissionError('Your message could not be sent. Please try again or email me directly at');
       setStatus('error');
     } finally {
       submissionInProgress.current = false;
@@ -187,35 +161,62 @@ export default function Contact() {
               </p>
             </div>
 
-            {/* Contact cards */}
+            {/* Contact details */}
             <div className="space-y-3">
-              <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 border border-white/10">
-                <div className="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
+              <div className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 transition-colors hover:border-cyan-500/30">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-blue-400/30 bg-blue-500/15">
                   <MapPin size={16} className="text-blue-400" />
                 </div>
                 <div>
-                  <div className="text-xs text-slate-500 mb-0.5">Location</div>
-                  <div className="text-white text-sm font-medium">Harare, Zimbabwe</div>
+                  <div className="mb-0.5 text-xs text-slate-500">Location</div>
+                  <div className="text-sm font-medium text-white">Harare, Zimbabwe</div>
                 </div>
               </div>
 
-              {SOCIAL_LINKS.map(({ icon: Icon, label, value, href, iconColor, iconBackground, external }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target={external ? '_blank' : undefined}
-                  rel={external ? 'noopener noreferrer' : undefined}
-                  className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 transition-all duration-200 hover:border-cyan-500/40 hover:bg-cyan-500/5"
-                >
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-xl border transition-transform duration-200 group-hover:scale-105 ${iconBackground}`}>
-                    <Icon size={17} className={iconColor} aria-hidden="true" />
-                  </div>
-                  <div>
-                    <div className="text-xs text-slate-500 mb-0.5">{label}</div>
-                    <div className="text-white text-sm font-medium">{value}</div>
-                  </div>
-                </a>
-              ))}
+              <a
+                href="mailto:nyathiza31@gmail.com"
+                className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 transition-all duration-200 hover:border-cyan-500/40 hover:bg-cyan-500/5"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-rose-400/30 bg-rose-500/15">
+                  <Mail size={17} className="text-rose-400" aria-hidden="true" />
+                </div>
+                <div>
+                  <div className="mb-0.5 text-xs text-slate-500">Email</div>
+                  <div className="text-sm font-medium text-white">nyathiza31@gmail.com</div>
+                </div>
+              </a>
+
+              <a
+                href="tel:+263789657604"
+                className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 transition-all duration-200 hover:border-cyan-500/40 hover:bg-cyan-500/5"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-400/30 bg-emerald-500/15">
+                  <Phone size={17} className="text-emerald-400" aria-hidden="true" />
+                </div>
+                <div>
+                  <div className="mb-0.5 text-xs text-slate-500">Phone</div>
+                  <div className="text-sm font-medium text-white">+263 78 965 7604</div>
+                </div>
+              </a>
+            </div>
+
+            <div className="flex items-center justify-between border-t border-white/10 pt-5">
+              <span className="text-xs font-medium uppercase tracking-wider text-slate-500">Connect</span>
+              <div className="flex items-center gap-2">
+                {SOCIAL_LINKS.map(({ icon: Icon, label, href, iconColor }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    title={label}
+                    className="group flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all duration-200 hover:-translate-y-0.5 hover:border-cyan-500/40 hover:bg-cyan-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                  >
+                    <Icon size={18} className={`${iconColor} transition-transform duration-200 group-hover:scale-110`} aria-hidden="true" />
+                  </a>
+                ))}
+              </div>
             </div>
 
             {/* Availability badge */}
@@ -374,7 +375,15 @@ export default function Contact() {
                     aria-live={status === 'error' ? 'assertive' : undefined}
                     className={`text-center text-sm text-red-400 ${status === 'error' ? '' : 'hidden'}`}
                   >
-                    {submissionError}
+                    {submissionError}{' '}
+                    {status === 'error' && (
+                      <a
+                        href="mailto:nyathiza31@gmail.com"
+                        className="font-semibold text-cyan-300 underline underline-offset-2 hover:text-cyan-200"
+                      >
+                        nyathiza31@gmail.com
+                      </a>
+                    )}
                   </p>
                 </form>
               )}
